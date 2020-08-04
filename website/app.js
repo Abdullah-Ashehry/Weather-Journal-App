@@ -14,8 +14,8 @@ function performAction(e) {
     const newZipCode = document.getElementById('zip').value;
     getWeather(baseURL, newZipCode, apiKey)
         .then(function(data) {
-            let userResponse = document.getElementById('feelings').value;
-            postData('/add', { temperature: temperature, date: newDate, userResponse: userResponse });
+            const userResponse = document.getElementById('feelings').value;
+            postData('/add', { temperature: data.main.temp, date: newDate, userInput: userResponse });
         })
         .then(updateUI());
 };
@@ -28,13 +28,11 @@ const getWeather = async(baseURL, newZipCode, apiKey) => {
     try {
 
         const data = await res.json();
-        temprature = data.main.temp
-        console.log(temprature)
-        return temprature;
+        console.log(data)
+        return data;
 
     } catch (error) {
         console.log("error", error);
-        // appropriately handle the error
     }
 }
 
@@ -63,12 +61,9 @@ const updateUI = async() => {
         console.log(projectData);
         document.getElementById('temp').innerHTML = projectData.temp;
         document.getElementById('date').innerHTML = projectData.date;
-        document.getElementById('content').innerHTML = projectData.userResponse;
+        document.getElementById('content').innerHTML = projectData.userInput;
         console.log('updateUI')
     } catch (error) {
         console.log('error', error);
     }
 }
-
-
-// postData('/add', { temprature: 42, date: newDate, userResponse: "Fine" });
