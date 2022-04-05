@@ -1,5 +1,7 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+projectData = {
+    '1234': '1234'
+};
 
 // Require Express to run server and routes
 
@@ -36,7 +38,13 @@ function listening() {
     console.log(`Runnung on local host ${port}`);
 }
 
-app.get('/all', function(request, response) {
+app.get('/all', function (request, response) {
+    response.send(projectData);
+});
+
+app.get('/all/:id', function (request, response) {
+    let id = request.params.id;
+    console.log(id)
     response.send(projectData);
 });
 
